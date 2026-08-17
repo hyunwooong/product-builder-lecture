@@ -903,27 +903,23 @@
   renderResult(); renderLegend(); renderStats();
 
   /* ── Disqus 댓글 ──
-     disqus.com에서 사이트를 등록하면 발급되는 shortname으로 아래 값을 바꿔주세요.
-     shortname을 넣기 전까지는 안내 문구만 보이고, 외부 스크립트를 불러오지 않습니다. */
+     disqus.com에서 사이트를 등록하면 발급되는 shortname으로 아래 값을 바꿔주세요. */
   const DISQUS_SHORTNAME = 'lotto-test';
   const thread = $('#disqus_thread');
   if (DISQUS_SHORTNAME === 'YOUR-DISQUS-SHORTNAME') {
     thread.innerHTML = '<p class="empty-note">Disqus shortname이 아직 설정되지 않았습니다. 코드의 DISQUS_SHORTNAME 값을 disqus.com에서 발급받은 이름으로 바꾸면 댓글창이 나타납니다.</p>';
   } else {
-    const io = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) return;
-      io.disconnect();
-      window.disqus_config = function () {
-        this.page.url = location.href.split('#')[0];
-        this.page.identifier = 'guardians-lotto';
-        this.page.title = document.title;
-      };
-      const s = document.createElement('script');
-      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
-      s.setAttribute('data-timestamp', String(Date.now()));
-      document.body.appendChild(s);
-    }, { rootMargin: '200px' });
-    io.observe(thread);
+    thread.innerHTML = '<p class="empty-note">댓글을 불러오는 중…</p>';
+    window.disqus_config = function () {
+      this.page.url = location.href.split('#')[0];
+      this.page.identifier = 'guardians-lotto';
+      this.page.title = document.title;
+    };
+    const s = document.createElement('script');
+    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+    s.setAttribute('data-timestamp', String(Date.now()));
+    s.async = true;
+    document.body.appendChild(s);
   }
 })();
 </script>
