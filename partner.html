@@ -1,0 +1,361 @@
+<script>(function(){try{var t=localStorage.getItem('guardians-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<title>노바 군단 제휴 신청</title>
+<style>
+  :root{
+    --display:'Arial Black','Archivo Black','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --body:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    --mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+    --r:14px;
+
+    --glow-gold:#F7B733;
+    --glow-magenta:#FF2E88;
+    --glow-cyan:#35E6E0;
+    --glow-violet:#8A4BFF;
+  }
+
+  /* 라이트: 잔다르 한낮 */
+  :root{
+    --bg:#F6F3FF;
+    --bg-2:#EDE6FF;
+    --panel:#FFFFFF;
+    --panel-2:#F3EEFF;
+    --line:#DED2FA;
+    --ink:#211A46;
+    --ink-2:#5C5386;
+    --ink-3:#655C90;
+
+    --accent-gold:#92400E;
+    --accent-magenta:#9D174D;
+    --accent-cyan:#0F766E;
+    --accent-violet:#6D28D9;
+
+    --nebula-bg:
+      radial-gradient(55vw 45vh at 10% 0%, rgba(255,46,136,.09), transparent 60%),
+      radial-gradient(50vw 40vh at 92% 14%, rgba(53,230,224,.09), transparent 62%),
+      linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 60%,var(--bg) 100%);
+
+    --shadow-color:rgba(60,50,110,.18);
+    --field-bg:color-mix(in srgb, var(--ink) 3%, var(--panel));
+    --ok-bg:#EAF6EE; --ok-ink:#1E6B3A; --ok-line:#BEE6C9;
+    --err-bg:#FCEBEC; --err-ink:#9A2530; --err-line:#F3C4C8;
+  }
+
+  /* 다크: 심우주 */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#07061A; --bg-2:#0B0826; --panel:#14103A; --panel-2:#1B1650; --line:#2C2568;
+      --ink:#F3EFFF; --ink-2:#A9A0D6; --ink-3:#6F67A3;
+      --accent-gold:#F7B733; --accent-magenta:#FF2E88; --accent-cyan:#35E6E0; --accent-violet:#8A4BFF;
+      --nebula-bg:
+        radial-gradient(55vw 45vh at 10% 0%, rgba(255,46,136,.16), transparent 60%),
+        radial-gradient(50vw 40vh at 92% 14%, rgba(53,230,224,.12), transparent 62%),
+        linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 60%,var(--bg) 100%);
+      --shadow-color:rgba(0,0,0,.55);
+      --field-bg:color-mix(in srgb, var(--ink) 6%, var(--panel));
+      --ok-bg:#0F2A1B; --ok-ink:#7FE3A5; --ok-line:#1E4E30;
+      --err-bg:#2E1418; --err-ink:#FF9AA5; --err-line:#5C2530;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#07061A; --bg-2:#0B0826; --panel:#14103A; --panel-2:#1B1650; --line:#2C2568;
+    --ink:#F3EFFF; --ink-2:#A9A0D6; --ink-3:#6F67A3;
+    --accent-gold:#F7B733; --accent-magenta:#FF2E88; --accent-cyan:#35E6E0; --accent-violet:#8A4BFF;
+    --nebula-bg:
+      radial-gradient(55vw 45vh at 10% 0%, rgba(255,46,136,.16), transparent 60%),
+      radial-gradient(50vw 40vh at 92% 14%, rgba(53,230,224,.12), transparent 62%),
+      linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 60%,var(--bg) 100%);
+    --shadow-color:rgba(0,0,0,.55);
+    --field-bg:color-mix(in srgb, var(--ink) 6%, var(--panel));
+    --ok-bg:#0F2A1B; --ok-ink:#7FE3A5; --ok-line:#1E4E30;
+    --err-bg:#2E1418; --err-ink:#FF9AA5; --err-line:#5C2530;
+  }
+  :root[data-theme="light"]{
+    --bg:#F6F3FF; --bg-2:#EDE6FF; --panel:#FFFFFF; --panel-2:#F3EEFF; --line:#DED2FA;
+    --ink:#211A46; --ink-2:#5C5386; --ink-3:#655C90;
+    --accent-gold:#92400E; --accent-magenta:#9D174D; --accent-cyan:#0F766E; --accent-violet:#6D28D9;
+    --nebula-bg:
+      radial-gradient(55vw 45vh at 10% 0%, rgba(255,46,136,.09), transparent 60%),
+      radial-gradient(50vw 40vh at 92% 14%, rgba(53,230,224,.09), transparent 62%),
+      linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 60%,var(--bg) 100%);
+    --shadow-color:rgba(60,50,110,.18);
+    --field-bg:color-mix(in srgb, var(--ink) 3%, var(--panel));
+    --ok-bg:#EAF6EE; --ok-ink:#1E6B3A; --ok-line:#BEE6C9;
+    --err-bg:#FCEBEC; --err-ink:#9A2530; --err-line:#F3C4C8;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--body);
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .nebula{position:fixed; inset:0; z-index:-1; pointer-events:none; background:var(--nebula-bg)}
+
+  .wrap{max-width:640px; margin:0 auto; padding:0 20px 80px}
+
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; padding:26px 0 10px;
+  }
+  .back{
+    font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--ink-3);
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .back:hover{color:var(--accent-cyan)}
+  .back:focus-visible{outline:2px solid var(--accent-cyan); outline-offset:3px}
+
+  .theme-switch{display:inline-flex; gap:2px; padding:3px; border-radius:999px; border:1px solid var(--line); background:color-mix(in srgb, var(--ink) 4%, transparent)}
+  .ts-btn{font-family:var(--mono); font-size:11px; letter-spacing:.08em; padding:6px 13px; border-radius:999px; border:0; background:transparent; color:var(--ink-3); cursor:pointer; transition:background .2s ease, color .2s ease}
+  .ts-btn:hover{color:var(--ink)}
+  .ts-btn:focus-visible{outline:2px solid var(--accent-cyan); outline-offset:2px}
+  .ts-btn.active{background:var(--ink); color:var(--bg)}
+
+  .hero{padding:20px 0 8px}
+  .badge{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent-cyan);
+    border:1px solid color-mix(in srgb, var(--glow-cyan) 34%, transparent);
+    background:color-mix(in srgb, var(--glow-cyan) 7%, transparent);
+    padding:7px 12px; border-radius:999px; margin-bottom:18px;
+  }
+  .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 10px var(--glow-cyan)}
+
+  h1{
+    font-family:var(--display); font-weight:900; font-size:clamp(32px,6.5vw,52px);
+    line-height:1; letter-spacing:-.01em; margin:0 0 12px; text-wrap:balance; transform:skewX(-4deg);
+    background:linear-gradient(96deg,var(--glow-magenta) 0%,var(--glow-gold) 55%,var(--glow-cyan) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .tagline{color:var(--ink-2); font-size:15px; max-width:56ch; text-wrap:balance; margin:0 0 34px}
+
+  form{
+    display:flex; flex-direction:column; gap:18px;
+    border:1px solid var(--line); border-radius:var(--r);
+    background:color-mix(in srgb, var(--panel) 70%, transparent);
+    padding:26px 24px; backdrop-filter:blur(6px);
+  }
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  @media(max-width:520px){.row2{grid-template-columns:1fr}}
+
+  .field{display:flex; flex-direction:column; gap:7px}
+  label{
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  label .req{color:var(--accent-magenta); margin-left:3px}
+
+  input, select, textarea{
+    font-family:var(--body); font-size:15px; color:var(--ink);
+    background:var(--field-bg); border:1px solid var(--line); border-radius:9px;
+    padding:11px 13px; width:100%; transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input::placeholder, textarea::placeholder{color:var(--ink-3)}
+  input:focus-visible, select:focus-visible, textarea:focus-visible{
+    outline:none; border-color:var(--accent-violet);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-violet) 22%, transparent);
+  }
+  textarea{resize:vertical; min-height:120px; font-family:var(--body)}
+  select{appearance:none; cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+    background-position:calc(100% - 20px) center, calc(100% - 15px) center;
+    background-size:5px 5px, 5px 5px; background-repeat:no-repeat;
+  }
+
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+
+  .submit{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:var(--body); font-weight:800; font-size:15px; letter-spacing:.02em;
+    color:#20130A; border:0; border-radius:999px; padding:14px 26px; cursor:pointer;
+    background:linear-gradient(96deg,var(--glow-gold),#FFD873 55%,var(--glow-magenta) 165%);
+    box-shadow:0 10px 30px rgba(247,183,51,.28);
+    transition:transform .15s ease, box-shadow .25s ease, opacity .2s ease;
+  }
+  .submit:hover:not(:disabled){transform:translateY(-2px); box-shadow:0 14px 40px rgba(247,183,51,.42)}
+  .submit:focus-visible{outline:2px solid var(--accent-cyan); outline-offset:3px}
+  .submit:disabled{opacity:.6; cursor:not-allowed; transform:none}
+
+  .spin{
+    width:14px; height:14px; border-radius:50%;
+    border:2px solid rgba(32,19,10,.35); border-top-color:#20130A;
+    animation:spin .7s linear infinite; display:none;
+  }
+  .submit.loading .spin{display:inline-block}
+  .submit.loading .submit-label{display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .notice{
+    display:none; align-items:flex-start; gap:10px; padding:14px 16px;
+    border-radius:10px; font-size:14px; line-height:1.55; border:1px solid transparent;
+  }
+  .notice.show{display:flex}
+  .notice.ok{background:var(--ok-bg); color:var(--ok-ink); border-color:var(--ok-line)}
+  .notice.err{background:var(--err-bg); color:var(--err-ink); border-color:var(--err-line)}
+  .notice b{font-weight:700}
+
+  .success{
+    display:none; flex-direction:column; align-items:flex-start; gap:14px;
+    border:1px solid var(--line); border-radius:var(--r);
+    background:color-mix(in srgb, var(--panel) 70%, transparent);
+    padding:32px 26px; backdrop-filter:blur(6px);
+  }
+  .success.show{display:flex}
+  .success h2{
+    font-family:var(--display); font-size:24px; margin:0; transform:skewX(-4deg);
+    background:linear-gradient(96deg,var(--glow-gold),var(--glow-cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .success p{margin:0; color:var(--ink-2); font-size:14.5px; max-width:52ch}
+  .success .back-link{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--accent-cyan);
+    text-decoration:none; border-bottom:1px dashed color-mix(in srgb, var(--accent-cyan) 50%, transparent);
+  }
+
+  .hint{font-size:12px; color:var(--ink-3); margin-top:2px}
+
+  footer{
+    margin-top:44px; padding-top:20px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--ink-3);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none !important; transition-duration:.01ms !important}
+  }
+</style>
+
+<div class="nebula"></div>
+
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="https://claude.ai/code/artifact/f60245b7-2995-4a89-96df-2a30fd577d6a">← 추첨기로 돌아가기</a>
+    <div class="theme-switch" role="group" aria-label="화면 테마 선택">
+      <button class="ts-btn" id="lightBtn" type="button">라이트</button>
+      <button class="ts-btn" id="darkBtn" type="button">다크</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <span class="badge"><span class="dot"></span>노바 군단 제휴 창구</span>
+    <h1>제휴 문의</h1>
+    <p class="tagline">콘텐츠 협업, 스폰서십, 이벤트 제안 등 무엇이든 좋습니다. 아래 양식을 채워 보내주시면 노바 군단이 확인 후 회신드립니다.</p>
+  </div>
+
+  <form id="form" action="https://formspree.io/f/xwlerwve" method="POST">
+    <div class="row2">
+      <div class="field">
+        <label for="name">담당자 이름<span class="req">*</span></label>
+        <input id="name" name="name" type="text" autocomplete="name" placeholder="홍길동" required>
+      </div>
+      <div class="field">
+        <label for="email">이메일<span class="req">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="company">회사 / 브랜드명</label>
+      <input id="company" name="company" type="text" placeholder="예: 자낙스 스튜디오">
+    </div>
+
+    <div class="field">
+      <label for="type">제휴 유형<span class="req">*</span></label>
+      <select id="type" name="제휴 유형" required>
+        <option value="" disabled selected>선택해주세요</option>
+        <option value="콘텐츠 협업">콘텐츠 협업</option>
+        <option value="광고·스폰서십">광고·스폰서십</option>
+        <option value="이벤트·프로모션">이벤트·프로모션</option>
+        <option value="기타">기타</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="message">문의 내용<span class="req">*</span></label>
+      <textarea id="message" name="message" placeholder="제안하고 싶은 내용을 자유롭게 적어주세요." required></textarea>
+    </div>
+
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="hidden" name="_subject" value="[가디언즈 오브 추첨기] 제휴 문의">
+
+    <div id="notice" class="notice" role="alert"></div>
+
+    <button class="submit" id="submitBtn" type="submit">
+      <span class="spin" aria-hidden="true"></span>
+      <span class="submit-label">요청 보내기</span>
+    </button>
+    <p class="hint">보내주신 정보는 답변 목적으로만 사용됩니다.</p>
+  </form>
+
+  <div class="success" id="success">
+    <h2>접수 완료</h2>
+    <p>제휴 문의가 노바 군단에 전달됐습니다. 검토 후 남겨주신 이메일로 회신드릴게요.</p>
+    <a class="back-link" href="https://claude.ai/code/artifact/f60245b7-2995-4a89-96df-2a30fd577d6a">← 추첨기로 돌아가기</a>
+  </div>
+
+  <footer>
+    <p>이 페이지는 <a href="https://formspree.io" style="color:inherit">Formspree</a>로 접수를 처리합니다.</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const form = $('#form'), success = $('#success'), notice = $('#notice'), btn = $('#submitBtn');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    notice.className = 'notice';
+    btn.disabled = true; btn.classList.add('loading');
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.hidden = true;
+        success.classList.add('show');
+        success.focus?.();
+      } else {
+        const data = await res.json().catch(() => null);
+        const msg = data?.errors?.map(x => x.message).join(', ')
+          || '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+        notice.textContent = msg;
+        notice.classList.add('show', 'err');
+      }
+    } catch {
+      notice.textContent = '네트워크 오류로 전송하지 못했습니다. 연결을 확인하고 다시 시도해주세요.';
+      notice.classList.add('show', 'err');
+    } finally {
+      btn.disabled = false; btn.classList.remove('loading');
+    }
+  });
+
+  /* ── 테마 스위치 (추첨기 페이지와 상태 공유) ── */
+  const THEME_KEY = 'guardians-theme';
+  const root = document.documentElement;
+  const lightBtn = $('#lightBtn'), darkBtn = $('#darkBtn');
+  const systemDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+  const effectiveTheme = () => root.dataset.theme || (systemDark() ? 'dark' : 'light');
+
+  const applyThemeUI = () => {
+    const t = effectiveTheme();
+    lightBtn.classList.toggle('active', t === 'light');
+    lightBtn.setAttribute('aria-pressed', String(t === 'light'));
+    darkBtn.classList.toggle('active', t === 'dark');
+    darkBtn.setAttribute('aria-pressed', String(t === 'dark'));
+  };
+  const setTheme = t => {
+    root.dataset.theme = t;
+    try { localStorage.setItem(THEME_KEY, t); } catch {}
+    applyThemeUI();
+  };
+  lightBtn.addEventListener('click', () => setTheme('light'));
+  darkBtn.addEventListener('click', () => setTheme('dark'));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (!root.dataset.theme) applyThemeUI();
+  });
+  applyThemeUI();
+})();
+</script>
