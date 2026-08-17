@@ -905,7 +905,7 @@
   /* ── Disqus 댓글 ──
      disqus.com에서 사이트를 등록하면 발급되는 shortname으로 아래 값을 바꿔주세요.
      shortname을 넣기 전까지는 안내 문구만 보이고, 외부 스크립트를 불러오지 않습니다. */
-  const DISQUS_SHORTNAME = 'YOUR-DISQUS-SHORTNAME';
+  const DISQUS_SHORTNAME = 'lotto-test';
   const thread = $('#disqus_thread');
   if (DISQUS_SHORTNAME === 'YOUR-DISQUS-SHORTNAME') {
     thread.innerHTML = '<p class="empty-note">Disqus shortname이 아직 설정되지 않았습니다. 코드의 DISQUS_SHORTNAME 값을 disqus.com에서 발급받은 이름으로 바꾸면 댓글창이 나타납니다.</p>';
@@ -927,3 +927,5 @@
   }
 })();
 </script>
+
+<script id="dsq-count-scr" src="//lotto-test.disqus.com/count.js" async></script>
