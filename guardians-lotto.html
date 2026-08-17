@@ -198,6 +198,17 @@
   }
   .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 10px var(--glow-cyan)}
   .clock{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--ink-3)}
+  .comment-jump{
+    display:inline-flex; align-items:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    color:var(--accent-gold); text-decoration:none;
+    border:1px solid color-mix(in srgb, var(--glow-gold) 34%, transparent);
+    background:color-mix(in srgb, var(--glow-gold) 7%, transparent);
+    padding:7px 12px; border-radius:999px;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .comment-jump:hover{background:color-mix(in srgb, var(--glow-gold) 15%, transparent)}
+  .comment-jump:focus-visible{outline:2px solid var(--accent-cyan); outline-offset:2px}
 
   /* 테마 스위치 */
   .theme-switch{
@@ -502,6 +513,7 @@
     <div class="top-left">
       <span class="badge"><span class="dot"></span>노바 군단 승인 · 추첨 프로토콜 v3.4</span>
       <span class="clock" id="clock">잔다르 표준시 —</span>
+      <a class="comment-jump" href="#disqus_thread">댓글 보기</a>
     </div>
     <div class="theme-switch" role="group" aria-label="화면 테마 선택">
       <button class="ts-btn" id="lightBtn" type="button">라이트</button>
