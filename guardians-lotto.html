@@ -378,6 +378,9 @@
   .grid{display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:56px}
   @media(max-width:860px){.grid{grid-template-columns:1fr}}
 
+  .comments{margin-top:22px}
+  .comments #disqus_thread{min-height:40px}
+
   .card{
     border:1px solid var(--line); border-radius:var(--r);
     background:color-mix(in srgb, var(--panel) 66%, transparent);
@@ -572,6 +575,13 @@
       </details>
     </section>
   </div>
+
+  <section class="card comments" aria-labelledby="commentsTitle">
+    <div class="card-head"><h2 id="commentsTitle">댓글</h2></div>
+    <p class="sub">노바 군단 시민들의 의견을 남겨주세요.</p>
+    <div id="disqus_thread"></div>
+    <noscript>댓글을 보려면 <a href="https://disqus.com/?ref_noscript" rel="nofollow">자바스크립트를 활성화</a>해주세요.</noscript>
+  </section>
 
   <footer>
     <p>재미로 만든 번호 생성기입니다. 실제 로또 사업자와 무관하며, 당첨을 보장하지 않습니다. 번호는 브라우저의 <code>crypto.getRandomValues</code>로 균등하게 뽑습니다.</p>
@@ -891,5 +901,29 @@
 
   applyThemeUI();
   renderResult(); renderLegend(); renderStats();
+
+  /* ── Disqus 댓글 ──
+     disqus.com에서 사이트를 등록하면 발급되는 shortname으로 아래 값을 바꿔주세요.
+     shortname을 넣기 전까지는 안내 문구만 보이고, 외부 스크립트를 불러오지 않습니다. */
+  const DISQUS_SHORTNAME = 'YOUR-DISQUS-SHORTNAME';
+  const thread = $('#disqus_thread');
+  if (DISQUS_SHORTNAME === 'YOUR-DISQUS-SHORTNAME') {
+    thread.innerHTML = '<p class="empty-note">Disqus shortname이 아직 설정되지 않았습니다. 코드의 DISQUS_SHORTNAME 값을 disqus.com에서 발급받은 이름으로 바꾸면 댓글창이 나타납니다.</p>';
+  } else {
+    const io = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      window.disqus_config = function () {
+        this.page.url = location.href.split('#')[0];
+        this.page.identifier = 'guardians-lotto';
+        this.page.title = document.title;
+      };
+      const s = document.createElement('script');
+      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+      s.setAttribute('data-timestamp', String(Date.now()));
+      document.body.appendChild(s);
+    }, { rootMargin: '200px' });
+    io.observe(thread);
+  }
 })();
 </script>
